@@ -12,6 +12,11 @@ const mainNavItems: NavItem[] = [
         href: '/',
         icon: LayoutGrid,
     },
+    {
+        title: 'Calendrier Test',
+        href: '/calendar',
+        icon: Settings,
+    }
 ];
 
 const footerNavItems: NavItem[] = [

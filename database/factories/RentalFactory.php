@@ -13,7 +13,7 @@ class RentalFactory extends Factory
     public function definition(): array
     {
         return [
-            'Name' => $this->faker->name(),
+            'name' => $this->faker->name(),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

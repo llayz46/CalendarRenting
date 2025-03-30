@@ -23,8 +23,7 @@ export function AppSidebar() {
 
     const rentalNavItems: NavItem[] = rentalNavMenu.map((rental: Rental) => ({
         title: rental.name || `Rental #${rental.id}`,
-        // href: `/rentals/${rental.id}`,
-        href: `/`,
+        href: rental.href,
         icon: Calendar,
     }));
 

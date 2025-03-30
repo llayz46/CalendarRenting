@@ -48,6 +48,7 @@ class HandleInertiaRequests extends Middleware
                 Rental::all()->map(fn ($rental) => [
                     'id' => $rental->id,
                     'name' => $rental->name,
+                    'href' => route('rentals.show', $rental),
                 ])->toArray(),
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),

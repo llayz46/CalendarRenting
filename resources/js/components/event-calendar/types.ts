@@ -2,14 +2,17 @@ export type CalendarView = "month" | "week" | "day" | "agenda"
 
 export interface CalendarEvent {
   id: string
-  title: string
+  name: string
   description?: string
   start: Date
   end: Date
-  allDay?: boolean
+  platform: Platform
   color?: EventColor
-  location?: string
 }
+
+export type Platform =
+  | "airbnb"
+  | "leboncoin"
 
 export type EventColor =
   | "sky"

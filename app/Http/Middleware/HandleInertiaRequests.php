@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Rental;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -43,9 +44,11 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'name' => config('app.name'),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
-            'auth' => [
-                'user' => $request->user(),
-            ],
+            'rentalNavMenu' =>
+                Rental::all()->map(fn ($rental) => [
+                    'id' => $rental->id,
+                    'name' => $rental->name,
+                ])->toArray(),
             'ziggy' => fn (): array => [
                 ...(new Ziggy)->toArray(),
                 'location' => $request->url(),

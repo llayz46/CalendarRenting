@@ -1,23 +1,10 @@
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem } from '@/types';
-import { Link } from '@inertiajs/react';
-import { Settings, LayoutGrid } from 'lucide-react';
+import { type NavItem, type Rental } from '@/types';
+import { Link, usePage } from '@inertiajs/react';
+import { Calendar, Settings } from 'lucide-react';
 import AppLogo from './app-logo';
-
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Accueil',
-        href: '/',
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Calendrier Test',
-        href: '/calendar',
-        icon: Settings,
-    }
-];
 
 const footerNavItems: NavItem[] = [
     {
@@ -28,6 +15,21 @@ const footerNavItems: NavItem[] = [
 ];
 
 export function AppSidebar() {
+    const { rentalNavMenu } = usePage<{ rentalNavMenu: Rental[] }>().props;
+
+    const staticNavItems: NavItem[] = [
+        { title: 'Calendrier Test', href: '/calendar', icon: Calendar }
+    ];
+
+    const rentalNavItems: NavItem[] = rentalNavMenu.map((rental: Rental) => ({
+        title: rental.name || `Rental #${rental.id}`,
+        // href: `/rentals/${rental.id}`,
+        href: `/`,
+        icon: Calendar,
+    }));
+
+    const mainNavItems = [...staticNavItems, ...rentalNavItems];
+
     return (
         <Sidebar collapsible="icon" variant="inset">
             <SidebarHeader>

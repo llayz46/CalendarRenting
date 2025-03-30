@@ -15,4 +15,11 @@ class RentalController extends Controller
 
         return redirect()->route('home');
     }
+
+    public function show(Rental $rental)
+    {
+        return inertia('rental/show', [
+            'rental' => $rental,
+        ]);
+    }
 }

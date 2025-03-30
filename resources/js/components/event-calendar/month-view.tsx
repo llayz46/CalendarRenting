@@ -13,6 +13,7 @@ import {
   startOfMonth,
   startOfWeek,
 } from "date-fns"
+import { fr } from "date-fns/locale"
 
 import {
   DraggableEvent,
@@ -58,7 +59,7 @@ export function MonthView({
   const weekdays = useMemo(() => {
     return Array.from({ length: 7 }).map((_, i) => {
       const date = addDays(startOfWeek(new Date()), i)
-      return format(date, "EEE")
+      return format(date, "EEE", { locale: fr })
     })
   }, [])
 
@@ -177,12 +178,7 @@ export function MonthView({
                                 isLastDay={isLastDay}
                               >
                                 <div className="invisible" aria-hidden={true}>
-                                  {!event.allDay && (
-                                    <span>
-                                      {format(new Date(event.start), "h:mm")}{" "}
-                                    </span>
-                                  )}
-                                  {event.title}
+                                  {event.name}
                                 </div>
                               </EventItem>
                             </div>

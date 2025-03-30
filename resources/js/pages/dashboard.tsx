@@ -12,7 +12,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function Dashboard() {
-        return (
+    return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Accueil" />
 

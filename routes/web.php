@@ -8,7 +8,7 @@ Route::get('/', function () {
     return Inertia::render('dashboard');
 })->name('home');
 
-Route::resource('rentals', RentalController::class)->only(['store']);
+Route::resource('rentals', RentalController::class)->only(['store', 'show']);
 
 // Test
 Route::get('/calendar', function () {

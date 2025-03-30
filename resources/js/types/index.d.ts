@@ -44,4 +44,5 @@ export interface User {
 export interface Rental {
     id: number;
     name: string;
+    href: string;
 }

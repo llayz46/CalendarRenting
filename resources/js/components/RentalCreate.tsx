@@ -25,7 +25,7 @@ export function RentalCreate() {
 
     return (
         <form className="p-8 flex flex-col gap-4" onSubmit={handleRentalCreate}>
-            <Label>Nom de la location</Label>
+            <Label>Nom du gîte</Label>
             <Input
                 id="name"
                 type="text"
@@ -39,7 +39,7 @@ export function RentalCreate() {
             <InputError message={errors.name} />
             <Button className="cursor-pointer">
                 {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
-                Créer la location
+                Créer le gîte
             </Button>
 
             <Transition

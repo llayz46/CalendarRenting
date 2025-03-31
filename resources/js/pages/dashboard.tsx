@@ -3,6 +3,7 @@ import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { RentalCreate } from '@/components/RentalCreate';
+import { YearSelect } from '@/components/year-select';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -34,19 +35,15 @@ interface Rental {
     reservations_count: number;
     total_price: number;
     next_reservation: Date;
+    last_reservation: Date;
 }
 
 interface DashboardProps {
     rentals: Rental[];
+    year: number;
 }
 
-const YearDisplay = () => {
-    const year = new Date().getFullYear();
-
-    return <span className="text-lg font-medium text-violet-600 dark:text-violet-200">{year}</span>;
-};
-
-export default function Dashboard({ rentals }: DashboardProps) {
+export default function Dashboard({ rentals, year }: DashboardProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Accueil" />
@@ -64,7 +61,7 @@ export default function Dashboard({ rentals }: DashboardProps) {
                         >
                             <h2 className="flex justify-between text-xl font-medium">
                                 <Link href={`/rentals/${rental.id}`} prefetch>{rental.name}</Link>
-                                <YearDisplay />
+                                <YearSelect rentalId={rental.id} currentYear={year} />
                             </h2>
 
                             <ul className="space-y-1 *:flex *:items-baseline *:gap-1">
@@ -76,10 +73,17 @@ export default function Dashboard({ rentals }: DashboardProps) {
                                     <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">{rental.total_price.toLocaleString('fr-FR')} €</span>
                                     <span>Revenu total</span>
                                 </li>
-                                <li>
-                                    <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">{new Date(rental.next_reservation).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
-                                    <span>Prochaine location</span>
-                                </li>
+                                {String(year) === String(new Date().getFullYear()) ? (
+                                    <li>
+                                        <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">{new Date(rental.next_reservation).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
+                                        <span>Prochaine location</span>
+                                    </li>
+                                ) : (
+                                    <li>
+                                        <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">{new Date(rental.last_reservation).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
+                                        <span>Dernière location</span>
+                                    </li>
+                                )}
                             </ul>
                         </div>
                     ))}

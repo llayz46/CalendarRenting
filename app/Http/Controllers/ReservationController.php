@@ -13,9 +13,6 @@ class ReservationController extends Controller
     {
         $validated = $request->validated();
 
-        $validated['start_date'] = Carbon::parse($validated['start_date'])->setTimezone('Europe/Paris');
-        $validated['end_date'] = Carbon::parse($validated['end_date'])->setTimezone('Europe/Paris');
-
         Reservation::create($validated);
     }
 

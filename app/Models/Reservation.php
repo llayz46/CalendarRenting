@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 class Reservation extends Model
 {
@@ -27,6 +28,16 @@ class Reservation extends Model
             'start_date' => 'date',
             'end_date' => 'date',
         ];
+    }
+
+    public function setStartDateAttribute($value): void
+    {
+        $this->attributes['start_date'] = Carbon::parse($value)->setTimezone('Europe/Paris');
+    }
+
+    public function setEndDateAttribute($value): void
+    {
+        $this->attributes['end_date'] = Carbon::parse($value)->setTimezone('Europe/Paris');
     }
 
     public function rental(): BelongsTo

@@ -18,7 +18,7 @@ export function RentalCreate() {
     const handleRentalCreate = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        post(route('rental'), {
+        post(route('rentals.store'), {
             onSuccess: () => reset('name'),
         });
     }

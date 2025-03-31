@@ -18,6 +18,11 @@ class RentalController extends Controller
 
     public function show(Rental $rental)
     {
+        $rental->load(['reservations' => function ($query) {
+            $query->orderBy('start_date', 'asc');
+        }]);
+        dd($rental);
+
         return inertia('rental/show', [
             'rental' => $rental,
         ]);

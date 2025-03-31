@@ -12,10 +12,12 @@ return new class extends Migration {
             $table->id();
             $table->foreignIdFor(Rental::class)->constrained()->onDelete('cascade');
             $table->string('client_name');
+            $table->string('description')->nullable();
             $table->date('start_date');
             $table->date('end_date');
             $table->unsignedInteger('price');
-            $table->string('platform');
+            $table->enum('platform', ['airbnb', 'leboncoin']);
+            $table->enum('color', ['sky', 'amber', 'violet', 'rose', 'emerald', 'orange']);
             $table->timestamps();
         });
     }

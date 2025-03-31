@@ -14,10 +14,12 @@ class ReservationFactory extends Factory
     {
         return [
             'client_name' => $this->faker->name(),
+            'description' => $this->faker->text(),
             'start_date' => Carbon::now(),
-            'end_date' => Carbon::now(),
-            'price' => $this->faker->randomNumber(),
-            'platform' => $this->faker->word(),
+            'end_date' => Carbon::now()->addDays(7),
+            'price' => $this->faker->numberBetween(700, 2600),
+            'platform' => $this->faker->randomElement(['leboncoin', 'airbnb']),
+            'color' => $this->faker->randomElement(['sky', 'amber', 'violet', 'rose', 'emerald', 'orange']),
             'created_at' => Carbon::now(),
             'updated_at' => Carbon::now(),
         ];

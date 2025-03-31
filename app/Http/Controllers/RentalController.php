@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RentalCreateRequest;
+use App\Http\Resources\ReservationResource;
 use App\Models\Rental;
 
 class RentalController extends Controller
@@ -18,13 +19,9 @@ class RentalController extends Controller
 
     public function show(Rental $rental)
     {
-        $rental->load(['reservations' => function ($query) {
-            $query->orderBy('start_date', 'asc');
-        }]);
-        dd($rental);
-
         return inertia('rental/show', [
             'rental' => $rental,
+            'reservations' => ReservationResource::collection($rental->reservations),
         ]);
     }
 }

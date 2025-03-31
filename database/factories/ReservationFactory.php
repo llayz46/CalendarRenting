@@ -12,11 +12,13 @@ class ReservationFactory extends Factory
 
     public function definition(): array
     {
+        $startDate = $this->faker->dateTimeBetween('-3 weeks', '+5 months');
+
         return [
             'client_name' => $this->faker->name(),
             'description' => $this->faker->text(),
-            'start_date' => Carbon::now(),
-            'end_date' => Carbon::now()->addDays(7),
+            'start_date' => $startDate,
+            'end_date' => (clone $startDate)->modify('+7 days'),
             'price' => $this->faker->numberBetween(700, 2600),
             'platform' => $this->faker->randomElement(['leboncoin', 'airbnb']),
             'color' => $this->faker->randomElement(['sky', 'amber', 'violet', 'rose', 'emerald', 'orange']),

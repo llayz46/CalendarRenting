@@ -3,6 +3,7 @@ export type CalendarView = "month" | "week" | "day" | "agenda"
 export interface CalendarEvent {
   id: string
   name: string
+  price: number
   description?: string
   start: Date
   end: Date

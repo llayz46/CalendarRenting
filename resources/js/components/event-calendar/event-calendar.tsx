@@ -117,27 +117,14 @@ export function EventCalendar({ events = [], onEventAdd, onEventUpdate, onEventD
     const handleEventCreate = (startTime: Date) => {
         console.log('Creating new event at:', startTime); // Debug log
 
-        // Snap to 15-minute intervals
-        const minutes = startTime.getMinutes();
-        const remainder = minutes % 15;
-        if (remainder !== 0) {
-            if (remainder < 7.5) {
-                // Round down to nearest 15 min
-                startTime.setMinutes(minutes - remainder);
-            } else {
-                // Round up to nearest 15 min
-                startTime.setMinutes(minutes + (15 - remainder));
-            }
-            startTime.setSeconds(0);
-            startTime.setMilliseconds(0);
-        }
-
         const newEvent: CalendarEvent = {
             id: '',
             name: '',
+            description: '',
+            price: 0,
             platform: 'airbnb',
             start: startTime,
-            end: addHoursToDate(startTime, 1),
+            end: addDays(startTime, 7),
         };
         setSelectedEvent(newEvent);
         setIsEventDialogOpen(true);

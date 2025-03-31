@@ -28,6 +28,7 @@ interface EventDialogProps {
 
 export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventDialogProps) {
     const [name, setName] = useState('');
+    const [price, setPrice] = useState<number>(0);
     const [description, setDescription] = useState('');
     const [startDate, setStartDate] = useState<Date>(new Date());
     const [endDate, setEndDate] = useState<Date>(addDays(new Date(), 7));
@@ -45,6 +46,7 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
     useEffect(() => {
         if (event) {
             setName(event.name || '');
+            setPrice(event.price ?? 0);
             setDescription(event.description || '');
 
             const start = new Date(event.start);
@@ -62,6 +64,7 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
 
     const resetForm = () => {
         setName('');
+        setPrice(0);
         setDescription('');
         setStartDate(new Date());
         setEndDate(addDays(new Date(), 7));
@@ -86,6 +89,7 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
         onSave({
             id: event?.id || '',
             name: eventName,
+            price: price,
             description,
             start,
             end,
@@ -174,9 +178,23 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
                 </DialogHeader>
                 {error && <div className="bg-destructive/15 text-destructive rounded-md px-3 py-2 text-sm">{error}</div>}
                 <div className="grid gap-4 py-4">
-                    <div className="*:not-first:mt-1.5">
-                        <Label htmlFor="name">Nom du client</Label>
-                        <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jean Dupont" />
+                    <div className="grid md:grid-cols-3 gap-2">
+                        <div className="col-span-2 *:not-first:mt-1.5">
+                            <Label htmlFor="name">Nom du client</Label>
+                            <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jean Dupont" />
+                        </div>
+
+                        <div>
+                            <Label htmlFor="price">Tarif</Label>
+                            <div className="relative mt-1.5">
+                                <Input id="price" value={price ?? ''} onChange={(e) => {
+                                    const value = e.target.value
+
+                                    setPrice(value ? parseFloat(value) : 0)
+                                }} placeholder="1000" />
+                                <span className="absolute -translate-y-1/2 right-2 top-1/2">€</span>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="*:not-first:mt-1.5">

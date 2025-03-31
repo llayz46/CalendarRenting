@@ -8,7 +8,6 @@ import { useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
 import {
-    addHoursToDate,
     AgendaDaysToShow,
     AgendaView,
     CalendarDndProvider,
@@ -139,43 +138,26 @@ export function EventCalendar({ events = [], onEventAdd, onEventUpdate, onEventD
                 position: 'bottom-left',
             });
         } else {
-            onEventAdd?.({
-                ...event,
-                id: Math.random().toString(36).substring(2, 11),
-            });
+            onEventAdd?.(event);
+
             // Show toast notification when an event is added
-            toast(`Event "${event.name}" added`, {
-                description: format(new Date(event.start), 'MMM d, yyyy'),
-                position: 'bottom-left',
-            });
+            // toast(`Event "${event.name}" adde d`, {
+            //     description: format(new Date(event.start), 'MMM d, yyyy'),
+            //     position: 'bottom-left',
+            // });
         }
         setIsEventDialogOpen(false);
         setSelectedEvent(null);
     };
 
     const handleEventDelete = (eventId: string) => {
-        const deletedEvent = events.find((e) => e.id === eventId);
         onEventDelete?.(eventId);
         setIsEventDialogOpen(false);
         setSelectedEvent(null);
-
-        // Show toast notification when an event is deleted
-        if (deletedEvent) {
-            toast(`Event "${deletedEvent.name}" deleted`, {
-                description: format(new Date(deletedEvent.start), 'MMM d, yyyy'),
-                position: 'bottom-left',
-            });
-        }
     };
 
     const handleEventUpdate = (updatedEvent: CalendarEvent) => {
         onEventUpdate?.(updatedEvent);
-
-        // Show toast notification when an event is updated via drag and drop
-        toast(`Event "${updatedEvent.name}" moved`, {
-            description: format(new Date(updatedEvent.start), 'MMM d, yyyy'),
-            position: 'bottom-left',
-        });
     };
 
     const viewNames: Record<string, string> = {

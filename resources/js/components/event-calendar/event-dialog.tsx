@@ -17,6 +17,7 @@ import { Platform } from '@/components/event-calendar/types';
 import Airbnb from '@/components/icons/airbnb';
 import Leboncoin from '@/components/icons/leboncoin';
 import * as React from 'react';
+import DeleteEvent from '@/components/delete-event';
 
 interface EventDialogProps {
     event: CalendarEvent | null;
@@ -329,9 +330,11 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
                 </div>
                 <DialogFooter className="flex-row sm:justify-between">
                     {event?.id && (
-                        <Button variant="outline" size="icon" onClick={handleDelete} aria-label="Delete event">
-                            <RiDeleteBinLine size={16} aria-hidden="true" />
-                        </Button>
+                        <DeleteEvent action={handleDelete}>
+                            <Button variant="outline" size="icon" aria-label="Delete event">
+                                <RiDeleteBinLine size={16} aria-hidden="true" />
+                            </Button>
+                        </DeleteEvent>
                     )}
                     <div className="flex flex-1 justify-end gap-2">
                         <Button variant="outline" onClick={onClose}>

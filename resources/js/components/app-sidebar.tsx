@@ -17,17 +17,11 @@ const footerNavItems: NavItem[] = [
 export function AppSidebar() {
     const { rentalNavMenu } = usePage<{ rentalNavMenu: Rental[] }>().props;
 
-    const staticNavItems: NavItem[] = [
-        { title: 'Calendrier Test', href: '/calendar', icon: Calendar }
-    ];
-
     const rentalNavItems: NavItem[] = rentalNavMenu.map((rental: Rental) => ({
         title: rental.name || `Rental #${rental.id}`,
         href: rental.href,
         icon: Calendar,
     }));
-
-    const mainNavItems = [...staticNavItems, ...rentalNavItems];
 
     return (
         <Sidebar collapsible="icon" variant="inset">
@@ -44,7 +38,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain items={rentalNavItems} />
             </SidebarContent>
 
             <SidebarFooter>

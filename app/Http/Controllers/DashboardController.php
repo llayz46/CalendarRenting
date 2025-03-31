@@ -18,7 +18,6 @@ class DashboardController extends Controller
             ->withSum('reservations as total_price', 'price', function ($query) use ($year) {
                 $query->whereYear('start_date', $year);
             })
-            ->latest()
             ->get();
 
         $rentals->each(function ($rental) {

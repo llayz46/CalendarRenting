@@ -1,6 +1,6 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/react';
+import { Head, Link } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { RentalCreate } from '@/components/RentalCreate';
 
@@ -63,7 +63,8 @@ export default function Dashboard({ rentals }: DashboardProps) {
                             className="border-sidebar-border/70 dark:border-sidebar-border relative flex aspect-video flex-col gap-5 overflow-hidden rounded-xl border p-8"
                         >
                             <h2 className="flex justify-between text-xl font-medium">
-                                {rental.name} <YearDisplay />
+                                <Link href={`/rentals/${rental.id}`} prefetch>{rental.name}</Link>
+                                <YearDisplay />
                             </h2>
 
                             <ul className="space-y-1 *:flex *:items-baseline *:gap-1">

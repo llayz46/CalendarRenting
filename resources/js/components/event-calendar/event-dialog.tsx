@@ -178,7 +178,7 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
                 </DialogHeader>
                 {error && <div className="bg-destructive/15 text-destructive rounded-md px-3 py-2 text-sm">{error}</div>}
                 <div className="grid gap-4 py-4">
-                    <div className="grid md:grid-cols-3 gap-2">
+                    <div className="grid gap-2 md:grid-cols-3">
                         <div className="col-span-2 *:not-first:mt-1.5">
                             <Label htmlFor="name">Nom du client</Label>
                             <Input id="name" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jean Dupont" />
@@ -187,19 +187,30 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
                         <div>
                             <Label htmlFor="price">Tarif</Label>
                             <div className="relative mt-1.5">
-                                <Input id="price" value={price ?? ''} onChange={(e) => {
-                                    const value = e.target.value
+                                <Input
+                                    id="price"
+                                    value={price ?? ''}
+                                    onChange={(e) => {
+                                        const value = e.target.value;
 
-                                    setPrice(value ? parseFloat(value) : 0)
-                                }} placeholder="1000" />
-                                <span className="absolute -translate-y-1/2 right-2 top-1/2">€</span>
+                                        setPrice(value ? parseFloat(value) : 0);
+                                    }}
+                                    placeholder="1000"
+                                />
+                                <span className="absolute top-1/2 right-2 -translate-y-1/2">€</span>
                             </div>
                         </div>
                     </div>
 
                     <div className="*:not-first:mt-1.5">
                         <Label htmlFor="description">Informations supplémentaire</Label>
-                        <Textarea id="description" value={description} onChange={(e) => setDescription(e.target.value)} rows={3} placeholder="4 personnes, 2 adultes, 2 enfants..." />
+                        <Textarea
+                            id="description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            rows={3}
+                            placeholder="4 personnes, 2 adultes, 2 enfants..."
+                        />
                     </div>
 
                     <div className="flex gap-4">
@@ -288,21 +299,9 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
                                 <button
                                     key={platformOption.value}
                                     onClick={() => setSelectedPlatform(platformOption.value)}
-                                    className={`cursor-pointer border rounded-md px-3 py-2 h-9 w-fit transition
-                                        ${selectedPlatform === platformOption.value ? 'bg-primary border-primary' : 'bg-background border-input'}
-                                        focus-visible:border-ring focus-visible:ring-ring/50
-                                        aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40
-                                        aria-invalid:border-destructive
-                                        shadow-xs outline-offset-0 outline-none
-                                        focus-visible:ring-[3px] focus-visible:outline-[3px]
-                                        disabled:pointer-events-none disabled:opacity-50
-                                        flex items-center justify-center gap-2 overflow-hidden`}
+                                    className={`h-9 w-fit cursor-pointer rounded-md border px-3 py-2 transition ${selectedPlatform === platformOption.value ? 'bg-primary border-primary' : 'bg-background border-input'} focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive flex items-center justify-center gap-2 overflow-hidden shadow-xs outline-offset-0 outline-none focus-visible:ring-[3px] focus-visible:outline-[3px] disabled:pointer-events-none disabled:opacity-50`}
                                 >
-                                    {platformOption.value === 'airbnb' ? (
-                                        <Airbnb className="size-20" />
-                                    ) : (
-                                        <Leboncoin className="size-20" />
-                                    )}
+                                    {platformOption.value === 'airbnb' ? <Airbnb className="size-20" /> : <Leboncoin className="size-20" />}
                                 </button>
                             ))}
                         </div>
@@ -338,7 +337,7 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
                         <Button variant="outline" onClick={onClose}>
                             Annuler
                         </Button>
-                        <Button onClick={handleSave}>Ajouter</Button>
+                        <Button onClick={handleSave}>{event?.id ? 'Modifier' : 'Ajouter'}</Button>
                     </div>
                 </DialogFooter>
             </DialogContent>

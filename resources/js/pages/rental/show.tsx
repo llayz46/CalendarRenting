@@ -14,6 +14,10 @@ export default function Show({ rental, reservations }: { rental: Rental, reserva
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
+            title: 'Accueil',
+            href: '/',
+        },
+        {
             title: rental.name,
             href: rental.href,
         },

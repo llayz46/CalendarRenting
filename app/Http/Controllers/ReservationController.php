@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ReservationCreateRequest;
 use App\Http\Requests\ReservationUpdateRequest;
 use App\Models\Reservation;
-use Illuminate\Support\Carbon;
 
 class ReservationController extends Controller
 {

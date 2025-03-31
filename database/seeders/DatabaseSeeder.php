@@ -14,13 +14,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         Rental::factory()
-            ->has(Reservation::factory()->count(5))
+            ->has(Reservation::factory(24))
             ->create([
                 'name' => 'Dégagnazès',
         ]);
 
         Rental::factory()
-            ->has(Reservation::factory()->count(8))
+            ->has(Reservation::factory()->count(32))
             ->create([
                 'name' => 'Concorès',
         ]);

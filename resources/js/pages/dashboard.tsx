@@ -11,7 +11,42 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function Dashboard() {
+interface Reservation {
+    id: number;
+    rental_id: number;
+    client_name: string;
+    description: string | null;
+    start_date: string;
+    end_date: string;
+    price: number;
+    platform: 'airbnb' | 'leboncoin';
+    color: 'violet' | 'rose' | 'orange' | 'emerald' | string;
+    created_at: string;
+    updated_at: string;
+}
+
+interface Rental {
+    id: number;
+    name: string;
+    created_at: string;
+    updated_at: string;
+    reservations: Reservation[];
+    reservations_count: number;
+    total_price: number;
+    next_reservation: Date;
+}
+
+interface DashboardProps {
+    rentals: Rental[];
+}
+
+const YearDisplay = () => {
+    const year = new Date().getFullYear();
+
+    return <span className="text-lg font-medium text-violet-600 dark:text-violet-200">{year}</span>;
+};
+
+export default function Dashboard({ rentals }: DashboardProps) {
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Accueil" />
@@ -22,13 +57,31 @@ export default function Dashboard() {
                         <RentalCreate />
                     </div>
 
-                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
+                    {rentals.map((rental) => (
+                        <div
+                            key={rental.id}
+                            className="border-sidebar-border/70 dark:border-sidebar-border relative flex aspect-video flex-col gap-5 overflow-hidden rounded-xl border p-8"
+                        >
+                            <h2 className="flex justify-between text-xl font-medium">
+                                {rental.name} <YearDisplay />
+                            </h2>
 
-                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
-                        <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                    </div>
+                            <ul className="space-y-1 *:flex *:items-baseline *:gap-1">
+                                <li>
+                                    <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">{rental.reservations_count}</span>
+                                    <span>Réservations</span>
+                                </li>
+                                <li>
+                                    <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">{rental.total_price.toLocaleString('fr-FR')} €</span>
+                                    <span>Revenu total</span>
+                                </li>
+                                <li>
+                                    <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">{new Date(rental.next_reservation).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
+                                    <span>Prochaine location</span>
+                                </li>
+                            </ul>
+                        </div>
+                    ))}
                 </div>
 
                 <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">

@@ -12,7 +12,10 @@ class ReservationFactory extends Factory
 
     public function definition(): array
     {
-        $startDate = $this->faker->dateTimeBetween('-3 weeks', '+5 months');
+        $year = $this->faker->randomElement([2023, 2024, 2025]);
+
+        $startDate = $this->faker->dateTimeBetween("$year-01-01", "$year-12-31");
+//        $startDate = $this->faker->dateTimeBetween('-3 weeks', '+5 months');
 
         return [
             'client_name' => $this->faker->name(),

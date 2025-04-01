@@ -185,12 +185,15 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
                             <div className="relative mt-1.5">
                                 <Input
                                     id="price"
-                                    type="number"
                                     value={price ?? ''}
                                     onChange={(e) => {
+                                        const regex = /^[0-9]*\.?[0-9]*$/;
                                         const value = e.target.value;
 
-                                        setPrice(value ? parseFloat(value) : 0);
+                                        if (regex.test(value)) {
+
+                                            setPrice(value ? parseFloat(value) : 0);
+                                        }
                                     }}
                                     placeholder="1000"
                                 />

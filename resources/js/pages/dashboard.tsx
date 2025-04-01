@@ -57,7 +57,7 @@ export default function Dashboard({ rentals, year }: DashboardProps) {
 
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
                 <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative aspect-video overflow-hidden rounded-xl border">
+                    <div className="border-sidebar-border/70 dark:border-sidebar-border relative overflow-hidden rounded-xl border">
                         <RentalCreate />
                     </div>
 
@@ -65,28 +65,28 @@ export default function Dashboard({ rentals, year }: DashboardProps) {
                         rentals.map((rental) => (
                             <div
                                 key={rental.id}
-                                className="border-sidebar-border/70 dark:border-sidebar-border relative flex aspect-video flex-col gap-5 overflow-hidden rounded-xl border p-8 relative"
+                                className="border-sidebar-border/70 dark:border-sidebar-border relative flex flex-col gap-5 overflow-hidden rounded-xl border p-8 relative"
                             >
                                 <h2 className="flex justify-between text-xl font-medium">
                                     <Link href={`/rentals/${rental.id}`} prefetch>{rental.name}</Link>
                                     <YearSelect rentalId={rental.id} currentYear={year} />
                                 </h2>
 
-                                <ul className="space-y-1 *:flex *:items-baseline *:gap-1">
+                                <ul className="space-y-2 lg:space-y-1 *:flex *:max-lg:flex-col-reverse *:items-baseline *:lg:gap-1">
                                     <li>
                                         <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">{rental.reservations_count}</span>
                                         <span>Réservations</span>
                                     </li>
                                     <li>
-                                        <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">{rental.total_price?.toLocaleString('fr-FR')} €</span>
+                                        <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200 text-nowrap">{rental.total_price?.toLocaleString('fr-FR')} €</span>
                                         <span>Revenu total</span>
                                     </li>
                                     {String(year) === String(new Date().getFullYear()) && rental.next_reservation ? (
                                         <li>
-                                            <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">
+                                            <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200 text-nowrap">
                                                 {new Date(rental.next_reservation).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}
                                             </span>
-                                            <span>Prochaine location</span>
+                                            <span className="truncate text-wrap">Prochaine location</span>
                                         </li>
                                     ) : rental.last_reservation ? (
                                         <li>

@@ -12,7 +12,7 @@ class RestrictAccessMiddleware
         $authorizedIpPrefix = env('AUTHORIZED_IP_PREFIX');
         $requestIp = $request->getClientIp();
 
-        if (empty($authorizedIp)) {
+        if (empty($authorizedIpPrefix)) {
             abort(500, 'La variable d\'environnement AUTHORIZED_IP_PREFIX n\'est pas définie.');
         }
 

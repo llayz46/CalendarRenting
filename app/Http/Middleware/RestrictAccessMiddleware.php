@@ -17,7 +17,7 @@ class RestrictAccessMiddleware
         }
 
         if (!str_starts_with($requestIp, $authorizedIpPrefix)) {
-            abort(403, 'Accès non autorisé.');
+            abort(403, 'Accès non autorisé.' . str_starts_with($requestIp, $authorizedIpPrefix) . ' ' . $requestIp . ' ' . $authorizedIpPrefix);
         }
 
         return $next($request);

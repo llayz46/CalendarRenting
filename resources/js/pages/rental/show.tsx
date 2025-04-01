@@ -5,6 +5,7 @@ import { CalendarEvent, EventCalendar } from '@/components/event-calendar';
 import { useState } from 'react';
 import { toast } from "sonner"
 import { format } from 'date-fns';
+import { fr } from 'date-fns/locale';
 
 export default function Show({ rental, reservations }: { rental: Rental, reservations: CalendarEvent[] }) {
     reservations.forEach(reservation => {
@@ -48,7 +49,7 @@ export default function Show({ rental, reservations }: { rental: Rental, reserva
                 setEvents([...events, newEvent])
 
                 toast(`La location de "${event.name}" a été ajoutée.`, {
-                    description: format(new Date(), 'MMM d, yyyy'),
+                    description: format(new Date(), 'MMM d, yyyy', { locale: fr }),
                     position: 'bottom-left',
                 });
             },
@@ -56,7 +57,6 @@ export default function Show({ rental, reservations }: { rental: Rental, reserva
     }
 
     const handleEventUpdate = (updatedEvent: CalendarEvent) => {
-        console.log('UPDATED EVENT :', updatedEvent)
         setEvents(events.map((event) => (event.id === updatedEvent.id ? updatedEvent : event)))
 
         router.put(`/reservation/${updatedEvent.id}`,
@@ -74,7 +74,7 @@ export default function Show({ rental, reservations }: { rental: Rental, reserva
                 preserveScroll: true,
                 onSuccess: () => {
                     toast(`La location de "${updatedEvent.name}" a était modifiée.`, {
-                        description: format(new Date(), 'MMM d, yyyy'),
+                        description: format(new Date(), 'MMM d, yyyy', { locale: fr }),
                         position: 'bottom-left',
                     });
                 },
@@ -90,7 +90,7 @@ export default function Show({ rental, reservations }: { rental: Rental, reserva
             preserveScroll: true,
             onSuccess: () => {
                 toast(`La location a été supprimée avec succès.`, {
-                    description: format(new Date(), 'MMM d, yyyy'),
+                    description: format(new Date(), 'MMM d, yyyy', { locale: fr }),
                     position: 'bottom-left',
                 });
             },

@@ -185,6 +185,7 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
                             <div className="relative mt-1.5">
                                 <Input
                                     id="price"
+                                    type="number"
                                     value={price ?? ''}
                                     onChange={(e) => {
                                         const value = e.target.value;

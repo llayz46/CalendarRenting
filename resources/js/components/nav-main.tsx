@@ -5,6 +5,11 @@ import { LayoutGrid } from 'lucide-react';
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
     const page = usePage();
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-expect-error
+    const url = page.props.ziggy.url;
+
     return (
         <SidebarGroup className="px-2 py-0">
             <SidebarMenu className="pt-1 pb-4">
@@ -25,7 +30,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                 {items.map((item) => (
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton
-                            asChild isActive={item.href === page.url}
+                            asChild isActive={`${url}${page.url}` === item.href}
                             tooltip={{ children: item.title }}
                         >
                             <Link href={item.href} prefetch>

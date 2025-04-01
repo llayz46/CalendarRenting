@@ -42,7 +42,6 @@ export default function Show({ rental, reservations }: { rental: Rental, reserva
             preserveState: true,
             preserveScroll: true,
             onSuccess: (resp) => {
-
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-expect-error
                 const newEvent = resp.props.reservations[resp.props.reservations.length - 1]
@@ -73,6 +72,8 @@ export default function Show({ rental, reservations }: { rental: Rental, reserva
                 preserveState: true,
                 preserveScroll: true,
                 onSuccess: () => {
+                    router.reload();
+
                     toast(`La location de "${updatedEvent.name}" a était modifiée.`, {
                         description: format(new Date(), 'MMM d, yyyy', { locale: fr }),
                         position: 'bottom-left',
@@ -89,6 +90,8 @@ export default function Show({ rental, reservations }: { rental: Rental, reserva
             preserveState: true,
             preserveScroll: true,
             onSuccess: () => {
+                router.reload();
+
                 toast(`La location a été supprimée avec succès.`, {
                     description: format(new Date(), 'MMM d, yyyy', { locale: fr }),
                     position: 'bottom-left',

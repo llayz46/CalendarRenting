@@ -6,7 +6,6 @@ import { RentalCreate } from '@/components/RentalCreate';
 import { YearSelect } from '@/components/year-select';
 import { RiDeleteBinLine } from '@remixicon/react';
 import { Button } from '@/components/ui/button';
-import * as React from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

@@ -21,6 +21,8 @@ class DashboardController extends Controller
             ->get();
 
         $rentals->each(function ($rental) use ($year) {
+            $rental->total_price = $rental->total_price ?? 0;
+
             $rental->next_reservation = $rental->reservations()
                 ->where('start_date', '>=', now())
                 ->whereYear('start_date', now()->year)

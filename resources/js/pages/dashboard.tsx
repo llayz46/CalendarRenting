@@ -71,7 +71,7 @@ export default function Dashboard({ rentals, year }: DashboardProps) {
                                         <span>Réservations</span>
                                     </li>
                                     <li>
-                                        <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">{rental.total_price.toLocaleString('fr-FR')} €</span>
+                                        <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">{rental.total_price?.toLocaleString('fr-FR')} €</span>
                                         <span>Revenu total</span>
                                     </li>
                                     {String(year) === String(new Date().getFullYear()) ? (

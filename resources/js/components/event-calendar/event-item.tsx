@@ -152,7 +152,7 @@ export function EventItem({
             >
                 {children || (
                     <span className="truncate">
-                        {event.name}
+                        {event.name} | {event.platform}
                     </span>
                 )}
             </EventWrapper>

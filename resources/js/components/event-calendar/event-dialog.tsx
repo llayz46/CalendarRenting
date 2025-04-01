@@ -52,7 +52,7 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
             setEndDate(end);
             setPlatform(event.platform as Platform || 'airbnb');
             setColor((event.color as EventColor) || 'sky');
-            setError(null); // Reset error when opening dialog
+            setError(null);
         } else {
             resetForm();
         }
@@ -75,7 +75,7 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
 
         // Validate that end date is not before start date
         if (isBefore(end, start)) {
-            setError('End date cannot be before start date');
+            setError('La date de fin doit être après la date de début.');
             return;
         }
 
@@ -89,7 +89,7 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
             description,
             start,
             end,
-            platform,
+            platform: selectedPlatform,
             color,
         });
     };

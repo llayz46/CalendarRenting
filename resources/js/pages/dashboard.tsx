@@ -81,17 +81,21 @@ export default function Dashboard({ rentals, year }: DashboardProps) {
                                         <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">{rental.total_price?.toLocaleString('fr-FR')} €</span>
                                         <span>Revenu total</span>
                                     </li>
-                                    {String(year) === String(new Date().getFullYear()) ? (
+                                    {String(year) === String(new Date().getFullYear()) && rental.next_reservation ? (
                                         <li>
-                                            <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">{new Date(rental.next_reservation).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
+                                            <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">
+                                                {new Date(rental.next_reservation).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}
+                                            </span>
                                             <span>Prochaine location</span>
                                         </li>
-                                    ) : (
+                                    ) : rental.last_reservation ? (
                                         <li>
-                                            <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">{new Date(rental.last_reservation).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}</span>
+                                            <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">
+                                                {new Date(rental.last_reservation).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}
+                                            </span>
                                             <span>Dernière location</span>
                                         </li>
-                                    )}
+                                    ) : null}
                                 </ul>
 
                                 <Button variant="outline" size="icon" aria-label="Delete rental" className="absolute right-8 bottom-8 cursor-pointer" onClick={() => handleRentalDelete(rental.id)}>

@@ -5,7 +5,6 @@ import { addDays, addMonths, addWeeks, endOfWeek, format, isSameMonth, startOfWe
 import { fr } from 'date-fns/locale';
 import { ChevronDownIcon, ChevronLeftIcon, ChevronRightIcon, PlusIcon } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
-import { toast } from 'sonner';
 
 import {
     AgendaDaysToShow,
@@ -132,19 +131,8 @@ export function EventCalendar({ events = [], onEventAdd, onEventUpdate, onEventD
     const handleEventSave = (event: CalendarEvent) => {
         if (event.id) {
             onEventUpdate?.(event);
-            // Show toast notification when an event is updated
-            toast(`Event "${event.name}" updated`, {
-                description: format(new Date(event.start), 'MMM d, yyyy', { locale: fr }),
-                position: 'bottom-left',
-            });
         } else {
             onEventAdd?.(event);
-
-            // Show toast notification when an event is added
-            // toast(`Event "${event.name}" adde d`, {
-            //     description: format(new Date(event.start), 'MMM d, yyyy'),
-            //     position: 'bottom-left',
-            // });
         }
         setIsEventDialogOpen(false);
         setSelectedEvent(null);

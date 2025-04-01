@@ -28,9 +28,6 @@ export default function Show({ rental, reservations }: { rental: Rental, reserva
     const handleEventAdd = (event: CalendarEvent) => {
         setEvents([...events, event])
 
-        console.log('SHOW/Start date : ', event.start)
-        console.log('SHOW/End date : ', event.end)
-
         router.post('/reservation', {
             rental_id: rental.id,
             client_name: event.name,
@@ -43,7 +40,13 @@ export default function Show({ rental, reservations }: { rental: Rental, reserva
         }, {
             preserveState: true,
             preserveScroll: true,
-            onSuccess: () => {
+            onSuccess: (resp) => {
+
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-expect-error
+                const newEvent = resp.props.reservations[resp.props.reservations.length - 1]
+                setEvents([...events, newEvent])
+
                 toast(`La location de "${event.name}" a été ajoutée.`, {
                     description: format(new Date(), 'MMM d, yyyy'),
                     position: 'bottom-left',
@@ -53,6 +56,7 @@ export default function Show({ rental, reservations }: { rental: Rental, reserva
     }
 
     const handleEventUpdate = (updatedEvent: CalendarEvent) => {
+        console.log('UPDATED EVENT :', updatedEvent)
         setEvents(events.map((event) => (event.id === updatedEvent.id ? updatedEvent : event)))
 
         router.put(`/reservation/${updatedEvent.id}`,

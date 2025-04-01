@@ -13,8 +13,6 @@ class RentalController extends Controller
         $validated = $request->validated();
 
         Rental::create($validated);
-
-        return redirect()->route('home');
     }
 
     public function show(Rental $rental)

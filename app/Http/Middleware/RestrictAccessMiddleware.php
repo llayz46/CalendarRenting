@@ -17,9 +17,7 @@ class RestrictAccessMiddleware
         }
 
         if ($requestIp !== $authorizedIp) {
-            abort(403, 'Accès non autorisé.' .
-                ' Votre adresse IP est ' . $requestIp .
-                ' et l\'adresse IP autorisée est ' . $authorizedIp);
+            abort(403, 'Accès non autorisé.');
         }
 
         return $next($request);

@@ -9,17 +9,15 @@ class RestrictAccessMiddleware
 {
     public function handle(Request $request, Closure $next)
     {
-        $authorizedIp = env('AUTHORIZED_IP_ACCESS');
+        $authorizedIpPrefix = env('AUTHORIZED_IP_PREFIX');
         $requestIp = $request->getClientIp();
 
         if (empty($authorizedIp)) {
-            abort(500, 'La variable d\'environnement AUTHORIZED_IP_ACCESS n\'est pas définie.');
+            abort(500, 'La variable d\'environnement AUTHORIZED_IP_PREFIX n\'est pas définie.');
         }
 
-        if ($requestIp !== $authorizedIp) {
-            abort(403, 'Accès non autorisé.' .
-                ' Votre adresse IP est ' . $requestIp .
-                ' et l\'adresse IP autorisée est ' . $authorizedIp);
+        if (!str_starts_with($requestIp, $authorizedIpPrefix)) {
+            abort(403, 'Accès non autorisé.');
         }
 
         return $next($request);

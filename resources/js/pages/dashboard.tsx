@@ -1,9 +1,12 @@
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, router } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { RentalCreate } from '@/components/RentalCreate';
 import { YearSelect } from '@/components/year-select';
+import { RiDeleteBinLine } from '@remixicon/react';
+import { Button } from '@/components/ui/button';
+import * as React from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -44,6 +47,10 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ rentals, year }: DashboardProps) {
+    const handleRentalDelete = (rentalId: number) => {
+        router.delete(`/rentals/${rentalId}`)
+    }
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Accueil" />
@@ -58,7 +65,7 @@ export default function Dashboard({ rentals, year }: DashboardProps) {
                         rentals.map((rental) => (
                             <div
                                 key={rental.id}
-                                className="border-sidebar-border/70 dark:border-sidebar-border relative flex aspect-video flex-col gap-5 overflow-hidden rounded-xl border p-8"
+                                className="border-sidebar-border/70 dark:border-sidebar-border relative flex aspect-video flex-col gap-5 overflow-hidden rounded-xl border p-8 relative"
                             >
                                 <h2 className="flex justify-between text-xl font-medium">
                                     <Link href={`/rentals/${rental.id}`} prefetch>{rental.name}</Link>
@@ -86,6 +93,10 @@ export default function Dashboard({ rentals, year }: DashboardProps) {
                                         </li>
                                     )}
                                 </ul>
+
+                                <Button variant="outline" size="icon" aria-label="Delete rental" className="absolute right-8 bottom-8 cursor-pointer" onClick={() => handleRentalDelete(rental.id)}>
+                                    <RiDeleteBinLine size={16} aria-hidden="true" />
+                                </Button>
                             </div>
                         ))
                     ) : (

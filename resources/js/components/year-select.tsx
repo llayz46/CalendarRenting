@@ -32,7 +32,11 @@ export function YearSelect({ rentalId, currentYear }: { rentalId: number, curren
                 const data = await response.json();
                 const yearValues = data.map((item: { year: string }) => item.year);
 
-                setYears(yearValues);
+                if (yearValues.length === 0) {
+                    setYears([2025]);
+                } else {
+                    setYears(yearValues);
+                }
 
                 if (!selectedYear) {
                     setSelectedYear(yearValues[0]);

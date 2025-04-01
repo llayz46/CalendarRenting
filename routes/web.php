@@ -9,7 +9,7 @@ use Inertia\Inertia;
 
 Route::get('/', DashboardController::class)->name('home');
 
-Route::resource('rentals', RentalController::class)->only(['store', 'show']);
+Route::resource('rentals', RentalController::class)->only(['store', 'show', 'destroy']);
 
 Route::resource('reservation', ReservationController::class)->only(['store', 'update', 'destroy']);
 

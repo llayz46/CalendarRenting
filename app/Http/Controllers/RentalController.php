@@ -24,4 +24,9 @@ class RentalController extends Controller
             'reservations' => ReservationResource::collection($rental->reservations),
         ]);
     }
+
+    public function destroy(Rental $rental)
+    {
+        $rental->delete();
+    }
 }

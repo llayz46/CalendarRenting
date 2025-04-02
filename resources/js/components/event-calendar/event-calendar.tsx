@@ -143,7 +143,6 @@ export function EventCalendar({ events = [], onEventAdd, onEventUpdate, onEventD
     };
 
     const handleEventUpdate = (updatedEvent: CalendarEvent) => {
-        console.log('handleEventUpdate:', updatedEvent);
         onEventUpdate?.(updatedEvent);
     };
 

@@ -1,11 +1,10 @@
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
-import { Head, Link, router } from '@inertiajs/react';
+import { type BreadcrumbItem, type Reservation } from '@/types';
+import { Head } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { RentalCreate } from '@/components/RentalCreate';
-import { YearSelect } from '@/components/year-select';
-import { RiDeleteBinLine } from '@remixicon/react';
-import { Button } from '@/components/ui/button';
+import { RentalStats } from '@/components/RentalStats';
+import { YearProvider } from '@/context/year-context';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -13,20 +12,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/',
     },
 ];
-
-interface Reservation {
-    id: number;
-    rental_id: number;
-    client_name: string;
-    description: string | null;
-    start_date: string;
-    end_date: string;
-    price: number;
-    platform: 'airbnb' | 'leboncoin';
-    color: 'violet' | 'rose' | 'orange' | 'emerald' | string;
-    created_at: string;
-    updated_at: string;
-}
 
 interface Rental {
     id: number;
@@ -45,10 +30,8 @@ interface DashboardProps {
     year: number;
 }
 
-export default function Dashboard({ rentals, year }: DashboardProps) {
-    const handleRentalDelete = (rentalId: number) => {
-        router.delete(`/rentals/${rentalId}`)
-    }
+export default function Dashboard({ rentals }: DashboardProps) {
+    const year = new Date().getFullYear();
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -62,51 +45,16 @@ export default function Dashboard({ rentals, year }: DashboardProps) {
 
                     {rentals.length > 0 ? (
                         rentals.map((rental) => (
-                            <div
-                                key={rental.id}
-                                className="border-sidebar-border/70 dark:border-sidebar-border relative flex flex-col gap-5 overflow-hidden rounded-xl border p-8 relative"
-                            >
-                                <h2 className="flex justify-between text-xl font-medium">
-                                    <Link href={`/rentals/${rental.id}`} prefetch>{rental.name}</Link>
-                                    <YearSelect rentalId={rental.id} currentYear={year} />
-                                </h2>
-
-                                <ul className="space-y-2 lg:space-y-1 *:flex *:max-lg:flex-col-reverse *:items-baseline *:lg:gap-1">
-                                    <li>
-                                        <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">{rental.reservations_count}</span>
-                                        <span>Réservations</span>
-                                    </li>
-                                    <li>
-                                        <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200 text-nowrap">{rental.total_price?.toLocaleString('fr-FR')} €</span>
-                                        <span>Revenu total</span>
-                                    </li>
-                                    {String(year) === String(new Date().getFullYear()) && rental.next_reservation ? (
-                                        <li>
-                                            <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200 text-nowrap">
-                                                {new Date(rental.next_reservation).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}
-                                            </span>
-                                            <span className="truncate text-wrap">Prochaine location</span>
-                                        </li>
-                                    ) : rental.last_reservation ? (
-                                        <li>
-                                            <span className="text-xl font-medium text-indigo-600 dark:text-indigo-200">
-                                                {new Date(rental.last_reservation).toLocaleDateString('fr-FR', { weekday: 'short', day: 'numeric', month: 'short' })}
-                                            </span>
-                                            <span>Dernière location</span>
-                                        </li>
-                                    ) : null}
-                                </ul>
-
-                                <Button variant="outline" size="icon" aria-label="Delete rental" className="absolute right-8 bottom-8 cursor-pointer" onClick={() => handleRentalDelete(rental.id)}>
-                                    <RiDeleteBinLine size={16} aria-hidden="true" />
-                                </Button>
-                            </div>
+                            <YearProvider key={rental.id} rentalId={rental.id} initialYear={year}>
+                                <RentalStats rental={rental} />
+                            </YearProvider>
                         ))
                     ) : (
                         <>
                             <div className="border-sidebar-border/70 dark:border-sidebar-border relative flex aspect-video flex-col gap-5 overflow-hidden rounded-xl border p-8">
                                 <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
                             </div>
+
                             <div className="border-sidebar-border/70 dark:border-sidebar-border relative flex aspect-video flex-col gap-5 overflow-hidden rounded-xl border p-8">
                                 <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
                             </div>

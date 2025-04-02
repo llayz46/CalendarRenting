@@ -1,4 +1,4 @@
-import { type BreadcrumbItem, Rental } from '@/types';
+import { type BreadcrumbItem } from '@/types';
 import { Head, router } from '@inertiajs/react';
 import AppLayout from '@/layouts/app-layout';
 import { CalendarEvent, EventCalendar } from '@/components/event-calendar';
@@ -6,6 +6,12 @@ import { useState } from 'react';
 import { toast } from "sonner"
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
+
+interface Rental {
+    id: number;
+    name: string;
+    href: string;
+}
 
 export default function Show({ rental, reservations }: { rental: Rental, reservations: CalendarEvent[] }) {
     reservations.forEach(reservation => {

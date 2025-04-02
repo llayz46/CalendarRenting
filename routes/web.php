@@ -20,19 +20,6 @@ Route::get('/rentals/{rentalId}/reservations', function ($rentalId) {
     return response()->json($reservations);
 });
 
-Route::get('/reservations/years/{rentalId}', function ($rentalId) {
-    $years = Reservation::where('rental_id', $rentalId)->get()->each(function ($reservation) {
-        $reservation->start_date = $reservation->start_date->format('Y-m-d');
-        $reservation->end_date = $reservation->end_date->format('Y-m-d');
-    })->map(function ($reservation) {
-        return [
-            'year' => $reservation->start_date->format('Y'),
-        ];
-    })->unique('year')->sortByDesc('year')->values()->all();
-
-    return response()->json($years);
-});
-
 Route::get('settings/appearance', function () {
     return Inertia::render('settings/appearance');
 })->name('appearance');

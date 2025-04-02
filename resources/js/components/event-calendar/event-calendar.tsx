@@ -107,6 +107,7 @@ export function EventCalendar({ events = [], onEventAdd, onEventUpdate, onEventD
     };
 
     const handleEventSelect = (event: CalendarEvent) => {
+        console.log('handleEventSelect:', event);
         setSelectedEvent(event);
         setIsEventDialogOpen(true);
     };
@@ -142,6 +143,7 @@ export function EventCalendar({ events = [], onEventAdd, onEventUpdate, onEventD
     };
 
     const handleEventUpdate = (updatedEvent: CalendarEvent) => {
+        console.log('handleEventUpdate:', updatedEvent);
         onEventUpdate?.(updatedEvent);
     };
 

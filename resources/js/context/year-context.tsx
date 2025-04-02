@@ -1,5 +1,6 @@
 import { createContext, useContext, ReactNode } from 'react';
 import { useYears } from '@/hooks/use-year';
+import { type Reservation } from '@/types';
 
 type YearContextType = {
     years: number[];
@@ -7,6 +8,9 @@ type YearContextType = {
     isLoading: boolean;
     error: string | null;
     changeYear: (year: string | number) => void;
+    reservations: Reservation[];
+    allReservations: Reservation[];
+    refreshData: () => Promise<void>;
 };
 
 const YearContext = createContext<YearContextType | undefined>(undefined);

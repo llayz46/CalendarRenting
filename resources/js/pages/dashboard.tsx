@@ -1,9 +1,10 @@
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem } from '@/types';
+import { type BreadcrumbItem, type Reservation } from '@/types';
 import { Head } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { RentalCreate } from '@/components/RentalCreate';
 import { RentalStats } from '@/components/RentalStats';
+import { YearProvider } from '@/context/year-context';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -11,20 +12,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/',
     },
 ];
-
-interface Reservation {
-    id: number;
-    rental_id: number;
-    client_name: string;
-    description: string | null;
-    start_date: string;
-    end_date: string;
-    price: number;
-    platform: 'airbnb' | 'leboncoin';
-    color: 'violet' | 'rose' | 'orange' | 'emerald' | string;
-    created_at: string;
-    updated_at: string;
-}
 
 interface Rental {
     id: number;
@@ -43,7 +30,9 @@ interface DashboardProps {
     year: number;
 }
 
-export default function Dashboard({ rentals, year }: DashboardProps) {
+export default function Dashboard({ rentals }: DashboardProps) {
+    const year = new Date().getFullYear();
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Accueil" />
@@ -56,13 +45,16 @@ export default function Dashboard({ rentals, year }: DashboardProps) {
 
                     {rentals.length > 0 ? (
                         rentals.map((rental) => (
-                            <RentalStats rental={rental} year={year} />
+                            <YearProvider key={rental.id} rentalId={rental.id} initialYear={year}>
+                                <RentalStats rental={rental} />
+                            </YearProvider>
                         ))
                     ) : (
                         <>
                             <div className="border-sidebar-border/70 dark:border-sidebar-border relative flex aspect-video flex-col gap-5 overflow-hidden rounded-xl border p-8">
                                 <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
                             </div>
+
                             <div className="border-sidebar-border/70 dark:border-sidebar-border relative flex aspect-video flex-col gap-5 overflow-hidden rounded-xl border p-8">
                                 <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
                             </div>

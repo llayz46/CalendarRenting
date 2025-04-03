@@ -157,12 +157,12 @@ export function EventCalendar({ events = [], onEventAdd, onEventUpdate, onEventD
         if (view === 'month') {
             return format(currentDate, 'MMMM yyyy', { locale: fr });
         } else if (view === 'week') {
-            const start = startOfWeek(currentDate, { weekStartsOn: 0 });
-            const end = endOfWeek(currentDate, { weekStartsOn: 0 });
+            const start = startOfWeek(currentDate, { weekStartsOn: 0, locale: fr });
+            const end = endOfWeek(currentDate, { weekStartsOn: 0, locale: fr });
             if (isSameMonth(start, end)) {
-                return format(start, 'MMMM yyyy');
+                return format(start, 'MMMM yyyy', { locale: fr });
             } else {
-                return `${format(start, 'MMM')} - ${format(end, 'MMM yyyy')}`;
+                return `${format(start, 'MMM', { locale: fr })} - ${format(end, 'MMM yyyy', { locale: fr })}`;
             }
         } else if (view === 'day') {
             return (
@@ -184,7 +184,7 @@ export function EventCalendar({ events = [], onEventAdd, onEventUpdate, onEventD
             if (isSameMonth(start, end)) {
                 return format(start, 'MMMM yyyy', { locale: fr });
             } else {
-                return `${format(start, 'MMM')} - ${format(end, 'MMM yyyy', { locale: fr })}`;
+                return `${format(start, 'MMM', { locale: fr })} - ${format(end, 'MMM yyyy', { locale: fr })}`;
             }
         } else {
             return format(currentDate, 'MMMM yyyy', { locale: fr });

@@ -24,7 +24,7 @@ export function RentalCreate() {
     }
 
     return (
-        <form className="p-8 flex flex-col gap-4" onSubmit={handleRentalCreate}>
+        <form className="p-6 flex flex-col gap-4" onSubmit={handleRentalCreate}>
             <Label>Nom du gîte</Label>
             <Input
                 id="name"

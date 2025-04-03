@@ -46,7 +46,7 @@ export function RentalStats({ rental }: { rental: Rental }) {
 
     return (
         <div
-            className="border-sidebar-border/70 dark:border-sidebar-border relative flex flex-col gap-5 overflow-hidden rounded-xl border p-8"
+            className="border-sidebar-border/70 dark:border-sidebar-border relative flex flex-col gap-5 overflow-hidden rounded-xl border p-6"
         >
             <h2 className="flex justify-between text-xl font-medium">
                 <Link href={`/rentals/${rental.id}`} prefetch>
@@ -101,7 +101,7 @@ export function RentalStats({ rental }: { rental: Rental }) {
                 variant="outline"
                 size="icon"
                 aria-label="Delete rental"
-                className="absolute right-8 bottom-8 cursor-pointer"
+                className="absolute right-6 bottom-6 cursor-pointer"
                 onClick={() => handleRentalDelete(rental.id)}
             >
                 <RiDeleteBinLine size={16} aria-hidden="true" />

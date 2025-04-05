@@ -41,6 +41,8 @@ export function EventDialog({ event, isOpen, onClose, onSave, onDelete }: EventD
 
     useEffect(() => {
         if (event) {
+            setSelectedPlatform(event.platform)
+
             setName(event.name || '');
             setPrice(event.price ?? 0);
             setDescription(event.description || '');

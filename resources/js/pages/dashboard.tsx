@@ -55,7 +55,6 @@ export default function Dashboard({ rentals }: DashboardProps) {
                 <RentalProvider rentals={rentals}>
                     <DetailedRentalStatsContainer rentals={rentals} year={year} />
                 </RentalProvider>
-            {/*    TODO: fix: après changer la platform, elle reste selectionné sur le prochain event */}
             </div>
         </AppLayout>
     );

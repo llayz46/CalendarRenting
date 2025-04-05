@@ -66,7 +66,6 @@ export function useYears(rentalId: number, initialYear: number) {
         }
     }, [years]);
 
-    // Changer l'année sélectionnée dans selectedYear
     const changeYear = useCallback((year: string | number) => {
         const yearValue = typeof year === 'string' ? parseInt(year) : year;
         setSelectedYear(yearValue);

@@ -41,20 +41,22 @@ export default function Dashboard({ rentals }: DashboardProps) {
                         ))
                     ) : (
                         <>
-                            <div className="border-sidebar-border/70 dark:border-sidebar-border relative flex aspect-video flex-col gap-5 overflow-hidden rounded-xl border p-8">
+                            <div className="border-sidebar-border/70 dark:border-sidebar-border relative flex flex-col gap-5 overflow-hidden rounded-xl border p-8">
                                 <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
                             </div>
 
-                            <div className="border-sidebar-border/70 dark:border-sidebar-border relative flex aspect-video flex-col gap-5 overflow-hidden rounded-xl border p-8">
+                            <div className="border-sidebar-border/70 dark:border-sidebar-border relative flex flex-col gap-5 overflow-hidden rounded-xl border p-8">
                                 <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
                             </div>
                         </>
                     )}
                 </div>
 
-                <RentalProvider rentals={rentals}>
-                    <DetailedRentalStatsContainer rentals={rentals} year={year} />
-                </RentalProvider>
+                {rentals.length > 0 && (
+                    <RentalProvider rentals={rentals}>
+                        <DetailedRentalStatsContainer rentals={rentals} year={year} />
+                    </RentalProvider>
+                )}
             </div>
         </AppLayout>
     );

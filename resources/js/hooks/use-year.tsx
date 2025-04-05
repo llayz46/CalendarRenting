@@ -60,6 +60,12 @@ export function useYears(rentalId: number, initialYear: number) {
         fetchReservations();
     }, [rentalId, fetchReservations]);
 
+    useEffect(() => {
+        if (initialYear !== selectedYear && !years.includes(selectedYear)) {
+            setSelectedYear(initialYear);
+        }
+    }, [years]);
+
     // Changer l'année sélectionnée dans selectedYear
     const changeYear = useCallback((year: string | number) => {
         const yearValue = typeof year === 'string' ? parseInt(year) : year;

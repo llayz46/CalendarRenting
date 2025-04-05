@@ -1,10 +1,12 @@
 import AppLayout from '@/layouts/app-layout';
-import { type BreadcrumbItem, type Reservation } from '@/types';
+import { type BreadcrumbItem, type Rental } from '@/types';
 import { Head } from '@inertiajs/react';
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import { RentalCreate } from '@/components/RentalCreate';
 import { RentalStats } from '@/components/RentalStats';
 import { YearProvider } from '@/context/year-context';
+import { DetailedRentalStats } from '@/components/DetailedRentalStats';
+import { RentalProvider, useRentalContext } from '@/context/rental-context';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -12,18 +14,6 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/',
     },
 ];
-
-interface Rental {
-    id: number;
-    name: string;
-    created_at: string;
-    updated_at: string;
-    reservations: Reservation[];
-    reservations_count: number;
-    total_price: number;
-    next_reservation: Date;
-    last_reservation: Date;
-}
 
 interface DashboardProps {
     rentals: Rental[];
@@ -62,10 +52,21 @@ export default function Dashboard({ rentals }: DashboardProps) {
                     )}
                 </div>
 
-                <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                </div>
+                <RentalProvider rentals={rentals}>
+                    <DetailedRentalStatsContainer rentals={rentals} year={year} />
+                </RentalProvider>
+            {/*    TODO: fix: après changer la platform, elle reste selectionné sur le prochain event */}
             </div>
         </AppLayout>
     );
+}
+
+function DetailedRentalStatsContainer({ rentals, year }: { rentals: Rental[], year: number }) {
+    const { selectedRental } = useRentalContext();
+
+    return (
+        <YearProvider rentalId={selectedRental.id} initialYear={year}>
+            <DetailedRentalStats rentals={rentals} />
+        </YearProvider>
+    )
 }

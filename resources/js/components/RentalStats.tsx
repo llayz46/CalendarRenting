@@ -2,22 +2,10 @@ import { YearSelect } from '@/components/YearSelect';
 import { Button } from '@/components/ui/button';
 import { Link, router } from '@inertiajs/react';
 import { RiDeleteBinLine } from '@remixicon/react';
-import { type Reservation } from '@/types';
+import { type Rental } from '@/types';
 import { useYearContext } from '@/context/year-context';
 import { LoaderCircle } from 'lucide-react';
 import { useMemo } from 'react';
-
-interface Rental {
-    id: number;
-    name: string;
-    created_at: string;
-    updated_at: string;
-    reservations: Reservation[];
-    reservations_count: number;
-    total_price: number;
-    next_reservation: Date;
-    last_reservation: Date;
-}
 
 export function RentalStats({ rental }: { rental: Rental }) {
     const { reservations, isLoading, selectedYear } = useYearContext();

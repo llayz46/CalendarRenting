@@ -1,7 +1,7 @@
 import { NavFooter } from '@/components/nav-footer';
 import { NavMain } from '@/components/nav-main';
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar';
-import { type NavItem, type Rental } from '@/types';
+import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { Calendar, Settings } from 'lucide-react';
 import AppLogo from './app-logo';
@@ -14,13 +14,19 @@ const footerNavItems: NavItem[] = [
     }
 ];
 
+type Rental = {
+    id: number;
+    name: string;
+    href: string;
+};
+
 export function AppSidebar() {
     const { rentalNavMenu } = usePage<{ rentalNavMenu: Rental[] }>().props;
 
     const rentalNavItems: NavItem[] = rentalNavMenu.map((rental: Rental) => ({
         title: rental.name || `Rental #${rental.id}`,
         href: rental.href,
-        icon: Calendar,
+        icon: Calendar
     }));
 
     return (

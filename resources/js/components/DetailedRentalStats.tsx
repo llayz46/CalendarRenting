@@ -41,10 +41,9 @@ const chartConfig = {
     }
 } satisfies ChartConfig
 
-export function DetailedRentalStats({ rentals }: { rentals: Rental[] }) {
-    const { allReservations, selectedYear } = useYearContext();
-    const { totalRevenuePerYear, revenueChange } = useRevenueCalculations({ allReservations, selectedYear });
+const MAY_OCTOBER_MONTHS = [5, 6, 7, 8, 9, 10];
 
+export function DetailedRentalStats({ rentals }: { rentals: Rental[] }) {
     return (
         <div className="border-sidebar-border/70 dark:border-sidebar-border relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border md:min-h-min">
             <div className="border-sidebar-border/70 dark:border-sidebar-border border-b">
@@ -56,26 +55,40 @@ export function DetailedRentalStats({ rentals }: { rentals: Rental[] }) {
             </div>
 
             <div className="grid auto-rows-min gap-4 p-6 md:grid-cols-3">
-                <MonthlyRevenue revenueChange={revenueChange} />
-                <AnnualRevenue revenueChange={revenueChange} totalRevenuePerYear={totalRevenuePerYear} />
-                <PlatformRevenue revenueChange={revenueChange} />
+                <MonthlyRevenue />
+                <AnnualRevenue />
+                <PlatformRevenue />
             </div>
         </div>
     );
 }
 
+function PreviousYear() {
+    const { years, selectedYear } = useYearContext();
+    const sortedYears = [...years].sort((a, b) => a - b);
+    const index = sortedYears.indexOf(selectedYear);
+
+    if (index > 0) {
+        return sortedYears[index - 1];
+    }
+
+    return null;
+}
+
 function RevenueTrend({ change, period }: { change: number, period: string }) {
+    const previousYear = PreviousYear();
+
     return (
         <div className="flex w-full items-start gap-2 text-sm">
             <div className="grid gap-2">
                 <div className="flex items-center gap-2 leading-none font-medium">
                     {change > 0 ? (
                         <>
-                            En hausse de {change}% par rapport à l'année dernière <TrendingUp className="h-4 w-4" />
+                            En hausse de {change}% par rapport à {previousYear ?? "l'année précédente"} <TrendingUp className="h-4 w-4" />
                         </>
                     ) : (
                         <>
-                            En baisse de {Math.abs(change)}% par rapport à l'année dernière <TrendingDown className="h-4 w-4" />
+                            En baisse de {Math.abs(change)}% par rapport à {previousYear ?? "l'année précédente"} <TrendingDown className="h-4 w-4" />
                         </>
                     )}
                 </div>
@@ -85,8 +98,9 @@ function RevenueTrend({ change, period }: { change: number, period: string }) {
     );
 }
 
-function MonthlyRevenue({ revenueChange }: { revenueChange: number }) {
-    const { reservations, selectedYear } = useYearContext();
+function MonthlyRevenue() {
+    const { allReservations, reservations, selectedYear } = useYearContext();
+    const { revenueChange } = useRevenueCalculations({ allReservations, selectedYear, selectedMonths: MAY_OCTOBER_MONTHS });
 
     const getMonthlyRevenue = (reservations: Reservation[]) => {
         const chartData = Array.from({ length: 6 }, (_, i) => ({
@@ -142,8 +156,9 @@ function MonthlyRevenue({ revenueChange }: { revenueChange: number }) {
     )
 }
 
-function AnnualRevenue({ totalRevenuePerYear, revenueChange }: { totalRevenuePerYear: Record<number, number>, revenueChange: number }) {
-    const { years, selectedYear } = useYearContext();
+function AnnualRevenue() {
+    const { allReservations, selectedYear, years } = useYearContext();
+    const { totalRevenuePerYear, revenueChange } = useRevenueCalculations({ allReservations, selectedYear });
 
     const chartData = useMemo(() => {
         return years.map((year) => ({
@@ -189,8 +204,9 @@ function AnnualRevenue({ totalRevenuePerYear, revenueChange }: { totalRevenuePer
     )
 }
 
-function PlatformRevenue({ revenueChange }: { revenueChange: number }) {
-    const { reservations, selectedYear } = useYearContext();
+function PlatformRevenue() {
+    const { allReservations, reservations, selectedYear } = useYearContext();
+    const { revenueChange } = useRevenueCalculations({ allReservations, selectedYear, selectedMonths: MAY_OCTOBER_MONTHS });
 
     const getMonthlyRevenue = (reservations: Reservation[]) => {
         const chartData = Array.from({ length: 6 }, (_, i) => ({
@@ -221,8 +237,8 @@ function PlatformRevenue({ revenueChange }: { revenueChange: number }) {
     return (
         <Card className="h-fit">
             <CardHeader>
-                <CardTitle>Revenu mensuel</CardTitle>
-                <CardDescription>Affichage des revenus générés entre mai et octobre</CardDescription>
+                <CardTitle>Revenu par plateforme</CardTitle>
+                <CardDescription>Affichage des revenus générés sur leboncoin et airbnb</CardDescription>
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>

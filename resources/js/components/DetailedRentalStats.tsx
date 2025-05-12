@@ -1,7 +1,7 @@
 "use client"
 
 import { TrendingUp, TrendingDown } from 'lucide-react';
-import { Area, AreaChart, CartesianGrid, XAxis } from 'recharts';
+import { Area, AreaChart, Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
 
 import {
     Card,
@@ -54,7 +54,7 @@ export function DetailedRentalStats({ rentals }: { rentals: Rental[] }) {
                 </div>
             </div>
 
-            <div className="grid auto-rows-min gap-4 p-6 md:grid-cols-3">
+            <div className="grid auto-rows-min gap-4 p-6 md:grid-cols-3 *:h-full">
                 <MonthlyRevenue />
                 <AnnualRevenue />
                 <PlatformRevenue />
@@ -149,7 +149,7 @@ function MonthlyRevenue() {
                     </AreaChart>
                 </ChartContainer>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="mt-auto">
                 <RevenueTrend change={revenueChange} period={`Mai - Octobre ${selectedYear}`} />
             </CardFooter>
         </Card>
@@ -197,7 +197,7 @@ function AnnualRevenue() {
                     </AreaChart>
                 </ChartContainer>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="mt-auto">
                 <RevenueTrend change={revenueChange} period={String(selectedYear)} />
             </CardFooter>
         </Card>
@@ -242,7 +242,7 @@ function PlatformRevenue() {
             </CardHeader>
             <CardContent>
                 <ChartContainer config={chartConfig}>
-                    <AreaChart
+                    <BarChart
                         accessibilityLayer
                         data={chartData}
                         margin={{
@@ -258,13 +258,13 @@ function PlatformRevenue() {
                             tickMargin={8}
                             tickFormatter={(value) => value.slice(0, 3)}
                         />
-                        <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="line" />} />
-                        <Area dataKey="airbnb" type="linear" fill="var(--color-airbnb)" fillOpacity={0.4} stroke="var(--color-airbnb)" />
-                        <Area dataKey="leboncoin" type="linear" fill="var(--color-leboncoin)" fillOpacity={0.4} stroke="var(--color-leboncoin)" />
-                    </AreaChart>
+                        <ChartTooltip cursor={false} content={<ChartTooltipContent indicator="dashed" />} />
+                        <Bar dataKey="airbnb" fill="var(--color-airbnb)" radius={4} />
+                        <Bar dataKey="leboncoin" fill="var(--color-leboncoin)" radius={4} />
+                    </BarChart>
                 </ChartContainer>
             </CardContent>
-            <CardFooter>
+            <CardFooter className="mt-auto">
                 <RevenueTrend change={revenueChange} period={`Mai - Octobre ${selectedYear}`} />
             </CardFooter>
         </Card>

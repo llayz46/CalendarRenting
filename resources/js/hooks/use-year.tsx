@@ -1,13 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
 import { type Reservation } from '@/types'
 
-export function useYears(rentalId: number, initialYear: number) {
+type UseYearType = {
+    rentalId?: number;
+    initialYear: number;
+};
+
+export function useYears({ rentalId, initialYear }: UseYearType) {
     const [years, setYears] = useState<number[]>([]);
     const [selectedYear, setSelectedYear] = useState<number>(initialYear);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
     const [reservations, setReservations] = useState<Reservation[]>([]);
     const [filteredReservations, setFilteredReservations] = useState<Reservation[]>([]);
+    const [totalPrice, setTotalPrice] = useState<number>(0);
 
     // Chargement des réservations
     const fetchReservations = useCallback(async () => {
@@ -15,7 +21,13 @@ export function useYears(rentalId: number, initialYear: number) {
         setError(null);
 
         try {
-            const response = await fetch(`/rentals/${rentalId}/reservations`);
+            let response: Response;
+
+            if (rentalId) {
+                response = await fetch(`/api/rentals/${rentalId}/reservations`);
+            } else {
+                response = await fetch(`/api/rentals/reservations`);
+            }
 
             if (!response.ok) {
                 new Error(`Erreur HTTP: ${response.status}`);
@@ -54,6 +66,8 @@ export function useYears(rentalId: number, initialYear: number) {
         });
 
         setFilteredReservations(filtered);
+
+        if(!rentalId) calculateTotalPrice(filtered)
     }, [reservations]);
 
     useEffect(() => {
@@ -72,6 +86,14 @@ export function useYears(rentalId: number, initialYear: number) {
         filterReservationsByYear(yearValue);
     }, [filterReservationsByYear]);
 
+    const calculateTotalPrice = (data: Reservation[]) => {
+        const total = data.reduce((acc, reservation) => {
+            return acc + reservation.price;
+        }, 0);
+
+        setTotalPrice(total);
+    };
+
     return {
         years,
         selectedYear,
@@ -80,6 +102,7 @@ export function useYears(rentalId: number, initialYear: number) {
         changeYear,
         reservations: filteredReservations,
         allReservations: reservations,
-        refreshData: fetchReservations
+        refreshData: fetchReservations,
+        totalPrice,
     };
 }

@@ -9,8 +9,10 @@ class DashboardController extends Controller
 {
     public function __invoke(Request $request)
     {
+        $rentals = Rental::all();
+
         return inertia('dashboard', [
-            'rentals' => Rental::all()
+            'rentals' => $rentals,
         ]);
     }
 }

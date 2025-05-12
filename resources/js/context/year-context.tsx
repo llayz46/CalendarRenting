@@ -11,18 +11,19 @@ type YearContextType = {
     reservations: Reservation[];
     allReservations: Reservation[];
     refreshData: () => Promise<void>;
+    totalPrice: number;
 };
 
 const YearContext = createContext<YearContextType | undefined>(undefined);
 
 type YearProviderProps = {
     children: ReactNode;
-    rentalId: number;
+    rentalId?: number;
     initialYear: number;
 };
 
 export function YearProvider({ children, rentalId, initialYear }: YearProviderProps) {
-    const yearData = useYears(rentalId, initialYear);
+    const yearData = useYears({ rentalId, initialYear });
 
     return (
         <YearContext.Provider value={yearData}>

@@ -14,8 +14,14 @@ Route::resource('rentals', RentalController::class)->only(['store', 'show', 'des
 
 Route::resource('reservation', ReservationController::class)->only(['store', 'update', 'destroy']);
 
-Route::get('/rentals/{rentalId}/reservations', function ($rentalId) {
+Route::get('/api/rentals/{rentalId}/reservations', function ($rentalId) {
     $reservations = Reservation::where('rental_id', $rentalId)->orderBy('start_date', 'desc')->get();
+
+    return response()->json($reservations);
+});
+
+Route::get('/api/rentals/reservations', function () {
+    $reservations = Reservation::orderBy('start_date', 'desc')->get();
 
     return response()->json($reservations);
 });

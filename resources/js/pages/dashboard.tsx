@@ -7,6 +7,7 @@ import { RentalStats } from '@/components/RentalStats';
 import { YearProvider } from '@/context/year-context';
 import { DetailedRentalStats } from '@/components/DetailedRentalStats';
 import { RentalProvider, useRentalContext } from '@/context/rental-context';
+import { RentalTotal } from '@/components/RentalTotal';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -17,10 +18,11 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 interface DashboardProps {
     rentals: Rental[];
+    totalPrice: number;
     year: number;
 }
 
-export default function Dashboard({ rentals }: DashboardProps) {
+export default function Dashboard({ rentals, totalPrice }: DashboardProps) {
     const year = new Date().getFullYear();
 
     return (
@@ -50,6 +52,12 @@ export default function Dashboard({ rentals }: DashboardProps) {
                             </div>
                         </>
                     )}
+                </div>
+
+                <div className="border-sidebar-border/70 dark:border-sidebar-border relative flex flex-col gap-5 overflow-hidden rounded-xl border p-4">
+                    <YearProvider initialYear={year}>
+                        <RentalTotal />
+                    </YearProvider>
                 </div>
 
                 {rentals.length > 0 && (
